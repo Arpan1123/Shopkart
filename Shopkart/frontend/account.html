@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - FreshMart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        :root {
+            --primary: #28a745;
+            --primary-dark: #1e7e34;
+            --secondary: #ffc107;
+            --light-gray: #f8f9fa;
+            --dark-gray: #6c757d;
+            --dark: #212529;
+            --border: #dee2e6;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Top */
+        .header-top {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .header-top .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-contact span {
+            margin-right: 20px;
+        }
+
+        .header-contact i,
+        .header-links a {
+            margin-right: 5px;
+        }
+
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .header-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header Main */
+        .header-main {
+            background-color: white;
+            padding: 15px 0;
+            box-shadow: var(--shadow-light);
+        }
+
+        .header-main .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .search-bar {
+            display: flex;
+            flex: 0 0 40%;
+            max-width: 500px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-bar button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-bar button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .search-bar button i {
+            margin-right: 8px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .header-action i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .header-action span {
+            font-size: 0.9rem;
+        }
+
+        .header-action:hover {
+            color: var(--primary);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: var(--dark);
+            padding: 12px 0;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links li {
+            position: relative;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links a.active {
+            color: var(--secondary);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            border-radius: 4px;
+            padding: 10px 0;
+            z-index: 100;
+            display: none;
+        }
+
+        .nav-links li:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            color: var(--dark);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: var(--light-gray);
+            color: var(--primary);
+        }
+
+        .delivery-info {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .delivery-info i {
+            color: var(--secondary);
+        }
+
+        /* Account Page */
+        .account-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .account-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .account-header h1 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .account-header p {
+            color: var(--dark-gray);
+            font-size: 1.1rem;
+        }
+
+        .account-wrapper {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        /* Account Sidebar */
+        .account-sidebar {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+        }
+
+        .user-profile-summary {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--primary);
+        }
+
+        .user-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .account-type {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .account-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background-color: rgba(40, 167, 69, 0.05);
+            border-left-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .menu-item i {
+            width: 25px;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* Account Content */
+        .account-content {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow-light);
+            padding: 30px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+            color: var(--dark);
+        }
+
+        /* Personal Info Form */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+
+        .form-note {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-top: 5px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Order History */
+        .order-list {
+            margin-top: 20px;
+        }
+
+        .order-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .order-card:hover {
+            box-shadow: var(--shadow-light);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .order-id {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .order-date {
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-delivered {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-processing {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #e0a800;
+        }
+
+        .status-pending {
+            background-color: rgba(108, 117, 125, 0.1);
+            color: var(--dark-gray);
+        }
+
+        .order-items {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .order-item-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .order-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .order-total {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .no-orders {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--dark-gray);
+        }
+
+        .no-orders i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--border);
+        }
+
+        /* Addresses */
+        .addresses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .address-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .address-card.default {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .address-type {
+            display: inline-block;
+            background-color: var(--light-gray);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .address-default-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .address-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-column p {
+            color: #adb5bd;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-contact p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .footer-contact i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .newsletter-form button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #343a40;
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .account-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .account-sidebar {
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-main .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-bar {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .navbar .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .order-items {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Top -->
+    <div class="header-top">
+        <div class="container">
+            <div class="header-contact">
+                <span><i class="fas fa-phone"></i> +91 9733147129</span>
+                <span><i class="fas fa-envelope"></i> info@freshmart.in</span>
+            </div>
+            <div class="header-links">
+                <a href="#">About Us</a>
+                <a href="#">Store Locator</a>
+                <a href="#">Track Order</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Main -->
+    <header class="header-main">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-shopping-basket"></i>
+                FreshMart
+            </a>
+
+            <form action="search.html" method="GET" class="search-bar">
+                <input type="text" name="query" placeholder="Search for groceries, fruits, vegetables...">
+                <button type="submit">
+                    <i class="fas fa-search"></i>
+                    <span class="search-text">Search</span>
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="#">Categories <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="fruit.html"><i class="fas fa-apple-alt"></i> Fruits & Vegetables</a>
+                        <a href="meat.html"><i class="fas fa-drumstick-bite"></i> Meat & Poultry</a>
+                        <a href="seafood.html"><i class="fas fa-fish"></i> Seafood</a>
+                        <a href="dairy.html"><i class="fas fa-cheese"></i> Dairy & Eggs</a>
+                        <a href="bakery.html"><i class="fas fa-bread-slice"></i> Bakery</a>
+                        <a href="beverage.html"><i class="fas fa-wine-bottle"></i> Beverages</a>
+                    </div>
+                </li>
+                <li><a href="offer.html">Offers</a></li>
+                <li><a href="#">New Arrivals</a></li>
+                <li><a href="#">Best Sellers</a></li>
+            </ul>
+
+            <div class="delivery-info">
+                <i class="fas fa-shipping-fast"></i>
+                Free Delivery on Orders Above Rs.499
+            </div>
+        </div>
+    </nav>
+
+    <!-- Account Content -->
+    <div class="account-container">
+        <div class="account-header">
+            <h1>My Account</h1>
+            <p>Manage your profile, orders, and preferences</p>
+        </div>
+
+        <div class="account-wrapper">
+            <!-- Sidebar -->
+            <div class="account-sidebar">
+                <div class="user-profile-summary">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO2ZV0Q7gi7ylM2X4JC1ko4inlqC5QAgwIGA&s"
+                        alt="User Avatar" class="user-avatar">
+                    <h2 class="user-name">Arpan Spandan Sojib</h2>
+                    <p class="user-email">info@freshmart.in</p>
+                    <span class="account-type">Premium Member</span>
+                </div>
+
+                <div class="account-menu">
+                    <a href="#personal-info" class="menu-item active">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Personal Information</span>
+                    </a>
+                    <a href="#Orders" class="menu-item">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>My Orders</span>
+                    </a>
+                    <a href="#addresses" class="menu-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>My Addresses</span>
+                    </a>
+                    <a href="#wishlist" class="menu-item">
+                        <i class="fas fa-heart"></i>
+                        <span>Wishlist</span>
+                    </a>
+                    <a href="index.html" class="menu-item">
+                        <i class="fas fa-home"></i>
+                        <span>Back to Home</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="account-content">
+                <!-- Personal Information Section -->
+                <div id="personal-info" class="content-section">
+                    <h2 class="section-title">Personal Information</h2>
+                    <form id="personal-info-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="first-name">First Name</label>
+                                <input type="text" id="first-name" class="form-input" value="Arpan Spandan Sojib" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="last-name">Last Name</label>
+                                <input type="text" id="last-name" class="form-input" value="teen vai teeno tabhahi" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email Address</label>
+                            <input type="email" id="email" class="form-input" value="info@freshmart.in" required>
+                            <p class="form-note">This email will be used for order confirmations and communication</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-input" value="+91 9733147129" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="birthdate">Date of Birth</label>
+                            <input type="date" id="birthdate" class="form-input" value="2026-01-15">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Gender</label>
+                            <div style="display: flex; gap: 20px; margin-top: 10px;">
+                                <label style="display: flex; align-items: center; gap: 5px;">
+                                    <input type="radio" name="gender" value="male" checked>
+                                    Male
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px;">
+                                    <input type="radio" name="gender" value="female">
+                                    Female
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px;">
+                                    <input type="radio" name="gender" value="other">
+                                    Other
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn">Save Changes</button>
+                            <a href="index.html" class="btn btn-outline">Back to Shopping</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Orders Section (Hidden by default) -->
+                <div id="orders" class="content-section" style="display: none;">
+                    <h2 class="section-title">My Orders</h2>
+                    
+                    <div class="order-list">
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <div class="order-id">Order #FM-2023-0012</div>
+                                    <div class="order-date">Placed on 15 Dec, 2023</div>
+                                </div>
+                                <span class="order-status status-delivered">Delivered</span>
+                            </div>
+                            
+                            <div class="order-items">
+                                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                                     alt="Order Item" class="order-item-img">
+                                <img src="https://images.unsplash.com/photo-1579113800032-c38bd7635818?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                                     alt="Order Item" class="order-item-img">
+                                <img src="https://images.unsplash.com/photo-1563636619-e9143da7973b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                                     alt="Order Item" class="order-item-img">
+                            </div>
+                            
+                            <div class="order-summary">
+                                <div>
+                                    <div style="font-size: 0.9rem; color: var(--dark-gray); margin-bottom: 5px;">3 items</div>
+                                    <div class="order-total">Total: ₹845</div>
+                                </div>
+                                <div>
+                                    <a href="#" class="btn btn-outline">View Details</a>
+                                    <a href="#" class="btn btn-secondary" style="margin-left: 10px;">Reorder</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <div class="order-id">Order #FM-2023-0008</div>
+                                    <div class="order-date">Placed on 5 Dec, 2023</div>
+                                </div>
+                                <span class="order-status status-processing">Processing</span>
+                            </div>
+                            
+                            <div class="order-items">
+                                <img src="https://ifoodreal.com/wp-content/uploads/2021/07/fg-how-to-cut-up-a-whole-chicken.jpg" 
+                                     alt="Order Item" class="order-item-img">
+                            </div>
+                            
+                            <div class="order-summary">
+                                <div>
+                                    <div style="font-size: 0.9rem; color: var(--dark-gray); margin-bottom: 5px;">1 item</div>
+                                    <div class="order-total">Total: ₹210</div>
+                                </div>
+                                <div>
+                                    <a href="#" class="btn btn-outline">Track Order</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="no-orders" style="display: none;">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h3>No Orders Yet</h3>
+                        <p>You haven't placed any orders. Start shopping now!</p>
+                        <a href="index.html" class="btn" style="margin-top: 15px;">Start Shopping</a>
+                    </div>
+                </div>
+
+                <!-- Addresses Section (Hidden by default) -->
+                <div id="addresses" class="content-section" style="display: none;">
+                    <h2 class="section-title">My Addresses</h2>
+                    
+                    <div class="addresses-grid">
+                        <div class="address-card default">
+                            <div class="address-default-badge">Default</div>
+                            <div class="address-type">Home</div>
+                            <h3>Sojib Molla</h3>
+                            <p> Kolkata Shyambazar</p>
+                            <p>West Bengal 700109</p>
+                            <p>Phone: +91 9876543210</p>
+                            
+                            <div class="address-actions">
+                                <a href="#" class="btn btn-outline" style="padding: 8px 15px;">Edit</a>
+                                <a href="#" class="btn btn-outline" style="padding: 8px 15px;">Remove</a>
+                            </div>
+                        </div>
+                        
+                        <div class="address-card">
+                            <div class="address-type">Office</div>
+                            <h3>Arpan Spandan Sojib</h3>
+                            <p>Kolkata Ruby</p>
+                            <p>Kolkata, West Bengal 700107</p>
+                            <p>Phone: +91 9733147129</p>
+                            
+                            <div class="address-actions">
+                                <a href="#" class="btn btn-outline" style="padding: 8px 15px;">Set as Default</a>
+                                <a href="#" class="btn btn-outline" style="padding: 8px 15px;">Edit</a>
+                                <a href="#" class="btn btn-outline" style="padding: 8px 15px;">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions" style="border-top: none; padding-top: 0; margin-top: 30px;">
+                        <a href="#" class="btn">
+                            <i class="fas fa-plus"></i> Add New Address
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FreshMart</h3>
+                    <p>Your trusted online grocery store in India. We deliver fresh groceries right to your doorstep
+                        with quality you can trust.</p>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i> Kolkata, India</p>
+                        <p><i class="fas fa-phone"></i> +91 9733147129</p>
+                        <p><i class="fas fa-envelope"></i> info@freshmart.in</p>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="fruit.html">Shop</a></li>
+                        <li><a href="offer.html">Offers</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Return & Refund</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter to get updates on our latest offers and promotions.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 FreshMart. All Rights Reserved. | Designed for India Grocery Shopping</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        const menuItems = document.querySelectorAll('.menu-item');
+        const contentSections = document.querySelectorAll('.content-section');
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === 'index.html') {
+                    return; // Allow direct navigation to index.html
+                }
+                
+                e.preventDefault();
+                
+                // Remove active class from all menu items and sections
+                menuItems.forEach(i => i.classList.remove('active'));
+                contentSections.forEach(section => section.style.display = 'none');
+                
+                // Add active class to clicked menu item
+                this.classList.add('active');
+                
+                // Show corresponding section
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('personal-info-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Personal information updated successfully!');
+        });
+
+        // Cart functionality
+        let cartItems = JSON.parse(localStorage.getItem('freshmartCart')) || [];
+        const cartCount = document.querySelector('.cart-count');
+        
+        function updateCartCount() {
+            const totalItems = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
+            cartCount.textContent = totalItems;
+        }
+        
+        // Load cart count on page load
+        updateCartCount();
+
+        // Newsletter form submission
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input').value;
+            if (email) {
+                alert('Thank you for subscribing to our newsletter!');
+                this.querySelector('input').value = '';
+            }
+        });
+
+        // Address actions
+        document.querySelectorAll('.address-actions .btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const action = this.textContent.trim();
+                alert(`Address ${action} feature would be implemented in a real application.`);
+            });
+        });
+    </script>
+</body>
+
+</html>
