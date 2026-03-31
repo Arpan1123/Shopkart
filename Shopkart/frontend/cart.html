@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shopping Cart | FreshMart</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Additional styles for cart page */
+        .cart-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), var(--primary);
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cart-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .cart-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .cart-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .cart-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .cart-items {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .cart-summary {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 100px 1fr auto;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--light-gray);
+            align-items: center;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+
+        .cart-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex-grow: 1;
+        }
+
+        .cart-item-title {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .cart-item-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            background: var(--light-gray);
+            border: none;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: #ddd;
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: none;
+            font-size: 1rem;
+            padding: 8px;
+        }
+
+        .remove-item {
+            color: var(--danger);
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .remove-item:hover {
+            color: #c82333;
+        }
+
+        .cart-item-total {
+            text-align: right;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .summary-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--light-gray);
+        }
+
+        .summary-row.total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        .promo-code {
+            margin: 25px 0;
+        }
+
+        .promo-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .promo-input input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+        }
+
+        .promo-input button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .promo-input button:hover {
+            background: #5a6268;
+        }
+
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .checkout-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .continue-shopping {
+            display: inline-block;
+            color: var(--primary);
+            text-decoration: none;
+            margin-top: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .continue-shopping:hover {
+            text-decoration: underline;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            color: var(--light-gray);
+            margin-bottom: 20px;
+        }
+
+        .empty-cart h2 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .empty-cart p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        @media (max-width: 576px) {
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+                grid-template-rows: auto auto;
+                gap: 10px;
+            }
+
+            .cart-item-total {
+                grid-column: 1 / -1;
+                text-align: left;
+                margin-top: 10px;
+            }
+
+            .cart-item-img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Top (same as index.html) -->
+    <div class="header-top">
+        <div class="container">
+            <div class="header-contact">
+                <span><i class="fas fa-phone"></i> +91 9733147129</span>
+                <span><i class="fas fa-envelope"></i> info@freshmart.in</span>
+            </div>
+            <div class="header-links">
+                <a href="index.html">Home</a>
+                <a href="#">About Us</a>
+                <a href="#">Store Locator</a>
+                <a href="#">Track Order</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Main (same as index.html) -->
+    <header class="header-main">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-shopping-basket"></i>
+                FreshMart
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Search for groceries, fruits, vegetables...">
+                <button>
+                    <i class="fas fa-search"></i>
+                    <span class="search-text">Search</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation (same as index.html) -->
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="#">Categories <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="fruit.html"><i class="fas fa-apple-alt"></i> Fruits & Vegetables</a>
+                        <a href="meat.html"><i class="fas fa-drumstick-bite"></i> Meat & Poultry</a>
+                        <a href="seafood.html"><i class="fas fa-fish"></i> Seafood</a>
+                        <a href="dairy.html"><i class="fas fa-cheese"></i> Dairy & Eggs</a>
+                        <a href="bakery.html"><i class="fas fa-bread-slice"></i> Bakery</a>
+                        <a href="beverage.html"><i class="fas fa-wine-bottle"></i> Beverages</a>
+                    </div>
+                </li>
+                <li><a href="offer.html">Offers</a></li>
+
+            </ul>
+
+            <div class="delivery-info">
+                <i class="fas fa-shipping-fast"></i>
+                Free Delivery on Orders Above Rs.499
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Hero Section -->
+    <section class="cart-hero">
+        <div class="container">
+            <h1>Your Shopping Cart</h1>
+            <p>Review your items and proceed to checkout</p>
+        </div>
+    </section>
+
+    <!-- Cart Content -->
+    <section class="cart-container">
+        <div class="cart-content">
+            <!-- Cart Items Section -->
+            <div class="cart-items">
+                <h2 class="section-title">Cart Items (0)</h2>
+                <!-- Cart items will be loaded dynamically here -->
+            </div>
+
+            <!-- Cart Summary Section -->
+            <div class="cart-summary">
+                <h2 class="summary-title">Order Summary</h2>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>Rs.0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery</span>
+                    <span>Rs.50.00</span>
+                </div>
+                <div class="promo-code">
+                    <strong>Promo Code</strong>
+                    <div class="promo-input">
+                        <input type="text" placeholder="Enter promo code">
+                        <button id="apply-promo">Apply</button>
+                    </div>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span>Rs.50.00</span>
+                </div>
+                <button class="checkout-btn">Proceed to Checkout</button>
+                <a href="index.html" class="continue-shopping">
+                    <i class="fas fa-arrow-left"></i> Continue Shopping
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FreshMart</h3>
+                    <p>Your trusted online grocery store in India. We deliver fresh groceries right to your doorstep
+                        with quality you can trust.</p>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i> Kolkata, India</p>
+                        <p><i class="fas fa-phone"></i> +91 9733147129</p>
+                        <p><i class="fas fa-envelope"></i> info@freshmart.in</p>
+
+                        <div class="social-links">
+                            <a href="#" class="social-btn facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-btn instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Shop</a></li>
+                        <li><a href="offers.html">Offers</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Return & Refund</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter to get updates on our latest offers and promotions.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 FreshMart. All Rights Reserved. | Designed for India Grocery Shopping</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // ============ CART FUNCTIONALITY ============
+        let cartItems = JSON.parse(localStorage.getItem('freshmartCart')) || [];
+
+        // Function to render cart items
+        function renderCartItems() {
+            const cartItemsContainer = document.querySelector('.cart-items');
+
+            if (cartItems.length === 0) {
+                // Show empty cart message
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h2>Your cart is empty</h2>
+                        <p>Looks like you haven't added any items to your cart yet. Start shopping to fill it up!</p>
+                        <a href="index.html" class="btn" style="display: inline-block; margin-top: 20px;">
+                            <i class="fas fa-shopping-bag"></i> Start Shopping
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Render cart items
+            let cartItemsHTML = '<h2 class="section-title">Cart Items (' + cartItems.length + ')</h2>';
+            let subtotal = 0;
+
+            cartItems.forEach((item, index) => {
+                // Calculate item total (assuming price is in format "Rs.XX")
+                const price = parseFloat(item.price.replace('Rs.', '').trim());
+                const itemTotal = price * item.quantity;
+                subtotal += itemTotal;
+
+                // Use the actual image from localStorage
+                const productImage = item.image || '#';
+
+                cartItemsHTML += `
+                    <div class="cart-item" data-id="${item.id}">
+                        <div class="cart-item-img">
+                            <img src="${productImage}" alt="${item.title}">
+                        </div>
+                        <div class="cart-item-info">
+                            <h3 class="cart-item-title">${item.title}</h3>
+                            <div class="cart-item-price">${item.price}</div>
+                            <div class="cart-item-controls">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                                    <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                                    <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                                </div>
+                                <button class="remove-item" data-id="${item.id}">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                        <div class="cart-item-total">
+                            Rs.${itemTotal.toFixed(2)}
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartItemsContainer.innerHTML = cartItemsHTML;
+
+            // Update summary
+            const delivery = subtotal >= 499 ? 0 : 50;
+            const total = subtotal + delivery;
+
+            // Update summary HTML
+            document.querySelector('.summary-row:nth-child(2) span:last-child').textContent = `Rs.${subtotal.toFixed(2)}`;
+            document.querySelector('.summary-row:nth-child(3) span:last-child').textContent = delivery === 0 ? 'FREE' : `Rs.${delivery.toFixed(2)}`;
+            document.querySelector('.summary-row.total span:last-child').textContent = `Rs.${total.toFixed(2)}`;
+
+            // Add free delivery message if needed
+            if (subtotal < 499 && subtotal > 0) {
+                if (!document.querySelector('.free-delivery-msg')) {
+                    const msgRow = document.createElement('div');
+                    msgRow.className = 'summary-row free-delivery-msg';
+                    msgRow.innerHTML = `<small style="color: var(--success);">Add Rs.${(499 - subtotal).toFixed(2)} more for free delivery!</small>`;
+                    document.querySelector('.summary-row:nth-child(3)').after(msgRow);
+                }
+            } else if (document.querySelector('.free-delivery-msg')) {
+                document.querySelector('.free-delivery-msg').remove();
+            }
+
+            // Setup cart controls after rendering
+            setupCartControls();
+        }
+
+        // Setup cart controls
+        function setupCartControls() {
+            // Quantity minus buttons
+            document.querySelectorAll('.quantity-btn.minus').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-id');
+                    updateQuantity(productId, -1);
+                });
+            });
+
+            // Quantity plus buttons
+            document.querySelectorAll('.quantity-btn.plus').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-id');
+                    updateQuantity(productId, 1);
+                });
+            });
+
+            // Remove buttons
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-id');
+                    removeFromCart(productId);
+                });
+            });
+        }
+
+        // Update quantity function
+        function updateQuantity(productId, change) {
+            const itemIndex = cartItems.findIndex(item => item.id === productId);
+
+            if (itemIndex > -1) {
+                cartItems[itemIndex].quantity += change;
+
+                // Remove item if quantity becomes 0 or less
+                if (cartItems[itemIndex].quantity <= 0) {
+                    cartItems.splice(itemIndex, 1);
+                }
+
+                // Save to localStorage
+                localStorage.setItem('freshmartCart', JSON.stringify(cartItems));
+
+                // Re-render cart
+                renderCartItems();
+
+                // Update cart count in navbar
+                updateCartCountInNavbar();
+            }
+        }
+
+        // Remove from cart function
+        function removeFromCart(productId) {
+            cartItems = cartItems.filter(item => item.id !== productId);
+
+            // Save to localStorage
+            localStorage.setItem('freshmartCart', JSON.stringify(cartItems));
+
+            // Re-render cart
+            renderCartItems();
+
+            // Update cart count in navbar
+            updateCartCountInNavbar();
+        }
+
+        // Function to update cart count in navbar
+        function updateCartCountInNavbar() {
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) {
+                const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            }
+        }
+
+        // Promo code functionality
+        document.getElementById('apply-promo').addEventListener('click', function () {
+            const promoInput = document.querySelector('.promo-input input');
+            const promoCode = promoInput.value.trim();
+
+            if (promoCode === 'WELCOME25') {
+                alert('Promo code applied! 25% discount on your first order.');
+                // You can add discount calculation here
+            } else if (promoCode === 'FRESH10') {
+                alert('Promo code applied! 10% discount on your order.');
+            } else if (promoCode) {
+                alert('Invalid promo code. Try WELCOME25 or FRESH10');
+            } else {
+                alert('Please enter a promo code');
+            }
+        });
+
+        // Checkout button
+        document.querySelector('.checkout-btn').addEventListener('click', function () {
+            if (cartItems.length === 0) {
+                alert('Your cart is empty. Add some items before checking out.');
+                return;
+            }
+            alert('Proceeding to checkout! In a real application, this would redirect to a checkout page.');
+            // In a real app: window.location.href = 'checkout.html';
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        const searchButton = document.querySelector('.search-bar button');
+
+        if (searchButton) {
+            searchButton.addEventListener('click', function () {
+                if (searchInput.value.trim() !== '') {
+                    alert(`Searching for: ${searchInput.value}`);
+                }
+            });
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter' && this.value.trim() !== '') {
+                    alert(`Searching for: ${this.value}`);
+                }
+            });
+        }
+
+        // Initialize cart on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            renderCartItems();
+            updateCartCountInNavbar();
+        });
+    </script>
+</body>
+
+</html>
