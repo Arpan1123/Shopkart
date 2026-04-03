@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
 import { allProducts, categoryMeta } from '../data/products'
+import AgeGate from '../components/AgeGate'
 
 export default function CategoryPage({ category }) {
   const meta = categoryMeta[category] || { name: category, pageTitle: category, pageDescription: '' }
@@ -11,7 +12,9 @@ export default function CategoryPage({ category }) {
   const filters = ['all', ...new Set(products.map(p => p.badge?.toLowerCase()).filter(Boolean))]
   const filtered = filter === 'all' ? products : products.filter(p => p.badge?.toLowerCase() === filter)
 
-  return (
+  const isAdultContent = category === 'drinks'
+
+  const pageContent = (
     <>
       <div className="breadcrumb">
         <div className="container">
@@ -49,4 +52,10 @@ export default function CategoryPage({ category }) {
       </div>
     </>
   )
+
+  if (isAdultContent) {
+    return <AgeGate>{pageContent}</AgeGate>
+  }
+
+  return pageContent
 }

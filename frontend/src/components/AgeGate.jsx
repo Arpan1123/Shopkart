@@ -1,11 +1,11 @@
 import { useState } from 'react'
 
-export default function AgeGate() {
+export default function AgeGate({ children }) {
   const [verified, setVerified] = useState(() => {
     return sessionStorage.getItem('age_verified') === 'true'
   })
 
-  if (verified) return null
+  if (verified) return children || null
 
   const handleVerify = () => {
     sessionStorage.setItem('age_verified', 'true')
@@ -13,7 +13,7 @@ export default function AgeGate() {
   }
 
   const handleDeny = () => {
-    window.location.href = 'https://www.google.com'
+    window.history.back()
   }
 
   return (
@@ -21,7 +21,7 @@ export default function AgeGate() {
       <div className="age-gate-modal">
         <div className="age-gate-icon">🔞</div>
         <h2>Age Verification Required</h2>
-        <p>This website contains products intended for adults only. You must be <strong>18 years or older</strong> to access the alcohol section.</p>
+        <p>This section contains products intended for adults only. You must be <strong>18 years or older</strong> to access the alcohol section.</p>
         <p className="age-gate-question">Are you 18 years of age or older?</p>
         <div className="age-gate-actions">
           <button className="age-gate-yes" onClick={handleVerify}>
