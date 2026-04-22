@@ -6,6 +6,7 @@ import Account from './pages/Account'
 import Offers from './pages/Offers'
 import CategoryPage from './pages/CategoryPage'
 import Search from './pages/Search'
+import Login from './pages/Login'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="cart" element={<Cart />} />
         <Route path="account" element={<Account />} />
         <Route path="offers" element={<Offers />} />
+        <Route path="login" element={<Login />} />
         <Route path="fruits" element={<CategoryPage category="fruits" />} />
         <Route path="meat" element={<CategoryPage category="meat" />} />
         <Route path="seafood" element={<CategoryPage category="seafood" />} />

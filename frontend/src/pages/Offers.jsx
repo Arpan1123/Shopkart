@@ -1,10 +1,22 @@
 import { useState, useEffect } from 'react'
-import { offers, weeklyDeals } from '../data/offers'
+import { offers as staticOffers, weeklyDeals } from '../data/offers'
 import AgeGate from '../components/AgeGate'
+import { fetchOffers } from '../utils/api'
 
 export default function Offers() {
   const [filter, setFilter] = useState('all')
   const [countdown, setCountdown] = useState('')
+  const [allOffers, setAllOffers] = useState(staticOffers)
+
+  // Fetch offers from API, fall back to static data
+  useEffect(() => {
+    fetchOffers()
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) setAllOffers(data)
+        // else keep static data
+      })
+      .catch(() => {/* keep static data */})
+  }, [])
 
   useEffect(() => {
     const update = () => {
@@ -26,7 +38,7 @@ export default function Offers() {
     return () => clearInterval(id)
   }, [])
 
-  const filtered = filter === 'all' ? offers : offers.filter(o => o.category === filter)
+  const filtered = filter === 'all' ? allOffers : allOffers.filter(o => o.category === filter)
 
   return (
     <AgeGate>

@@ -1,13 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
 import { allProducts, categoryMeta } from '../data/products'
 import AgeGate from '../components/AgeGate'
+import { fetchProducts } from '../utils/api'
 
 export default function CategoryPage({ category }) {
   const meta = categoryMeta[category] || { name: category, pageTitle: category, pageDescription: '' }
-  const products = allProducts[category] || []
+  const [products, setProducts] = useState(allProducts[category] || [])
+  const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
+
+  useEffect(() => {
+    setLoading(true)
+    setFilter('all')
+    fetchProducts(category)
+      .then(data => {
+        if (data && data.length > 0) setProducts(data)
+        else setProducts(allProducts[category] || [])
+      })
+      .catch(() => setProducts(allProducts[category] || []))
+      .finally(() => setLoading(false))
+  }, [category])
 
   const filters = ['all', ...new Set(products.map(p => p.badge?.toLowerCase()).filter(Boolean))]
   const filtered = filter === 'all' ? products : products.filter(p => p.badge?.toLowerCase() === filter)
@@ -44,11 +58,19 @@ export default function CategoryPage({ category }) {
           </div>
         )}
         <h2 className="section-title">{meta.name}</h2>
-        <div className="products-grid">
-          {filtered.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="products-grid">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="product-card skeleton" style={{ height: 300, borderRadius: 16, background: 'var(--glass)' }} />
+            ))}
+          </div>
+        ) : (
+          <div className="products-grid">
+            {filtered.map(product => (
+              <ProductCard key={product._id || product.id} product={product} />
+            ))}
+          </div>
+        )}
       </div>
     </>
   )

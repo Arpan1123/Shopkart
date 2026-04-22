@@ -339,7 +339,9 @@ ul { list-style: none; }
   transition: var(--transition);
 }
 .glass-dropdown-wrapper:hover .glass-dropdown { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-.glass-dropdown a { padding: 10px 16px; border-radius: var(--radius-sm); font-weight: 500; color: var(--text-gray); }
+.glass-dropdown-right { left: auto !important; right: 0 !important; transform: translateY(10px) !important; }
+.glass-dropdown-wrapper:hover .glass-dropdown-right { transform: translateY(0) !important; }
+.glass-dropdown a { padding: 10px 16px; border-radius: var(--radius-sm); font-weight: 500; color: var(--text-gray); display: flex; align-items: center; gap: 8px; }
 .glass-dropdown a:hover { background: rgba(255,255,255,0.05); color: var(--brand-primary); }
 
 .glass-search {

@@ -1,11 +1,17 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
+import { placeOrder } from '../utils/api'
 
 export default function Cart() {
-  const { cartItems, removeFromCart, updateQuantity, cartTotal } = useCart()
+  const { cartItems, removeFromCart, updateQuantity, cartTotal, clearCart } = useCart()
+  const { user } = useAuth()
   const [promoCode, setPromoCode] = useState('')
   const [promoMsg, setPromoMsg] = useState('')
+  const [orderLoading, setOrderLoading] = useState(false)
+  const [orderSuccess, setOrderSuccess] = useState(false)
+  const [orderError, setOrderError] = useState('')
 
   const delivery = cartTotal >= 499 ? 0 : 50
   const total = cartTotal + delivery
@@ -15,6 +21,46 @@ export default function Cart() {
     else if (promoCode === 'FRESH10') setPromoMsg('Promo code applied! 10% discount on your order.')
     else if (promoCode) setPromoMsg('Invalid promo code. Try WELCOME25 or FRESH10')
     else setPromoMsg('Please enter a promo code')
+  }
+
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) return
+    if (!user) { setOrderError('Please login to place an order.'); return }
+
+    setOrderLoading(true)
+    setOrderError('')
+    try {
+      await placeOrder({
+        items: cartItems.map(item => ({
+          product: item._id || item.id,
+          title: item.title,
+          price: parseFloat(String(item.price).replace('Rs.', '').replace(',', '').trim()),
+          quantity: item.quantity,
+          image: item.image,
+        })),
+        subtotal: cartTotal,
+        deliveryFee: delivery,
+        total,
+        promoCode: promoCode || undefined,
+      })
+      clearCart()
+      setOrderSuccess(true)
+    } catch (err) {
+      setOrderError(err.message || 'Failed to place order. Please try again.')
+    } finally {
+      setOrderLoading(false)
+    }
+  }
+
+  if (orderSuccess) {
+    return (
+      <div className="container" style={{ textAlign: 'center', padding: '80px 20px' }}>
+        <i className="fas fa-check-circle" style={{ fontSize: '5rem', color: 'var(--primary)', marginBottom: 20, display: 'block' }}></i>
+        <h1 style={{ marginBottom: 10 }}>Order Placed Successfully! 🎉</h1>
+        <p style={{ color: 'var(--gray)', marginBottom: 30 }}>Thank you for your order. We'll deliver it soon!</p>
+        <Link to="/" className="btn"><i className="fas fa-home"></i> Back to Home</Link>
+      </div>
+    )
   }
 
   return (
@@ -41,10 +87,10 @@ export default function Cart() {
               <>
                 <h2 className="section-title">Cart Items ({cartItems.length})</h2>
                 {cartItems.map((item) => {
-                  const price = parseFloat(String(item.price).replace('Rs.', '').trim())
+                  const price = parseFloat(String(item.price).replace('Rs.', '').replace(',', '').trim())
                   const itemTotal = price * item.quantity
                   return (
-                    <div className="cart-item" key={item.id}>
+                    <div className="cart-item" key={item._id || item.id}>
                       <div className="cart-item-img">
                         <img src={item.image} alt={item.title} />
                       </div>
@@ -53,11 +99,11 @@ export default function Cart() {
                         <div className="cart-item-price">{item.price}</div>
                         <div className="cart-item-controls">
                           <div className="quantity-control">
-                            <button className="quantity-btn minus" onClick={() => updateQuantity(item.id, -1)}>-</button>
+                            <button className="quantity-btn minus" onClick={() => updateQuantity(item._id || item.id, -1)}>-</button>
                             <input type="text" className="quantity-input" value={item.quantity} readOnly />
-                            <button className="quantity-btn plus" onClick={() => updateQuantity(item.id, 1)}>+</button>
+                            <button className="quantity-btn plus" onClick={() => updateQuantity(item._id || item.id, 1)}>+</button>
                           </div>
-                          <button className="remove-item" onClick={() => removeFromCart(item.id)}>
+                          <button className="remove-item" onClick={() => removeFromCart(item._id || item.id)}>
                             <i className="fas fa-trash"></i> Remove
                           </button>
                         </div>
@@ -96,8 +142,18 @@ export default function Cart() {
               <span>Total</span>
               <span>Rs.{total.toFixed(2)}</span>
             </div>
-            <button className="checkout-btn" onClick={() => alert(cartItems.length === 0 ? 'Your cart is empty.' : 'Proceeding to checkout!')}>
-              Proceed to Checkout
+            {orderError && <p style={{ color: 'var(--error, #e53935)', fontSize: '0.9rem', marginBottom: 10 }}>{orderError}</p>}
+            {!user && cartItems.length > 0 && (
+              <p style={{ fontSize: '0.85rem', color: 'var(--gray)', marginBottom: 10 }}>
+                <Link to="/login" style={{ color: 'var(--primary)' }}>Login</Link> to place your order
+              </p>
+            )}
+            <button
+              className="checkout-btn"
+              onClick={handleCheckout}
+              disabled={orderLoading || cartItems.length === 0}
+            >
+              {orderLoading ? 'Placing Order...' : 'Proceed to Checkout'}
             </button>
             <Link to="/" className="continue-shopping">
               <i className="fas fa-arrow-left"></i> Continue Shopping
