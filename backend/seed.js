@@ -7,7 +7,7 @@ import bcrypt from 'bcryptjs'
 
 dotenv.config()
 
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI)
   .then(() => console.log('✅ Connected to MongoDB for seeding'))
   .catch(err => {
     console.error('❌ DB Connection failed:', err.message)
