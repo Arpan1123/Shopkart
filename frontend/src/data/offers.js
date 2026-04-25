@@ -1,7 +1,6 @@
 export const offers = [
   { id: 'whiskey-weekend', title: 'Weekend Whiskey Special', description: 'Get 25% off on Johnnie Walker Black Label & Jack Daniel\'s. Stock up for an unforgettable weekend!', image: 'https://images.unsplash.com/photo-1527281400683-1aae777175f8?w=500&q=80', price: 'Rs.2,625', originalPrice: 'Rs.3,500', discount: '25% OFF', validity: 'Friday to Sunday only', category: 'weekend' },
   { id: 'beer-bundle', title: 'Beer Party Pack 🍺', description: 'Buy 2 cases of Kingfisher or Bira and get a free snacks platter worth Rs.300. Perfect for house parties!', image: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=500&q=80', price: 'Rs.1,999', originalPrice: 'Rs.2,640', discount: '24% OFF', validity: 'Valid until: 30 Mar 2026', category: 'bundle' },
-  { id: 'wine-flash', title: 'Wine Flash Sale 🍷', description: 'Limited time! All Sula wines at flat 30% off. Red, White, Rosé — grab your favourite now.', image: 'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=500&q=80', price: 'Rs.546', originalPrice: 'Rs.780', discount: '30% OFF', validity: 'Ends in: 23 hours 49 minutes', category: 'flash' },
   { id: 'rum-combo', title: 'Rum Cocktail Kit', description: 'Get Bacardi White Rum + Old Monk + cocktail mixers + fresh limes at a bundle price.', image: 'https://images.unsplash.com/photo-1598018553943-93a6e78b1e20?w=500&q=80', price: 'Rs.1,399', originalPrice: 'Rs.1,800', discount: '22% OFF', validity: 'Valid until: 31 Mar 2026', category: 'bundle' },
   { id: 'welcome-spirits', title: 'First Order — 20% OFF!', description: 'New customer? Get flat 20% off on your first spirits order above Rs.2000. Use code CHEERS20.', image: 'https://images.unsplash.com/photo-1614313511387-1436a4480ebb?w=500&q=80', price: '20% OFF', discount: 'NEW USER', validity: 'For new customers only', category: 'new' },
   { id: 'bogo-beer', title: 'Buy 1 Get 1 Free — Craft Beer', description: 'Buy any 6-pack of Bira 91 and get another flavour free! Limited stock.', image: 'https://images.unsplash.com/photo-1608270586620-248524c67de9?w=500&q=80', price: 'BUY 1 GET 1', discount: 'FREE', validity: 'Valid until: 28 Mar 2026', category: 'discount' },
@@ -11,3 +10,15 @@ export const weeklyDeals = [
   { id: 'weekly-spirits', title: 'Weekly Spirits Essentials', description: 'Get 15% off on premium spirits including Absolut, Bombay Sapphire & Bacardi. Minimum order Rs.3000. Perfect for restocking your home bar.', image: 'https://images.unsplash.com/photo-1613063003171-e2eb1cfdb463?w=500&q=80', price: '15% OFF', discount: 'ON MIN. Rs.3000', tag: 'WEEKLY DEAL' },
   { id: 'party-combo', title: 'Ultimate Party Combo 🎉', description: 'Buy spirits + snacks worth Rs.4000 and get a free premium mixer pack. Elevate your party game!', image: 'https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?w=500&q=80', price: 'FREE MIXERS', discount: 'WITH Rs.4000', tag: 'COMBO OFFER' },
 ]
+
+// 🍷 Wine-specific offers — shown ONLY on the Wines page (18+ section)
+export const wineOffers = [
+  { id: 'wine-flash', title: 'Wine Flash Sale 🍷', description: 'Limited time! All Sula wines at flat 30% off. Red, White, Rosé — grab your favourite now.', image: 'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=500&q=80', price: 'Rs.546', originalPrice: 'Rs.780', discount: '30% OFF', validity: 'Ends at midnight tonight' },
+  { id: 'wine-trio', title: 'The Perfect Trio 🍾', description: 'Buy Sula Red + White + Rosé together and get 35% off. The ultimate wine collection for any dinner.', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=500&q=80', price: 'Rs.1,430', originalPrice: 'Rs.2,230', discount: '35% OFF', validity: 'Weekend only' },
+  { id: 'wine-new-user', title: 'First Wine Order — 25% OFF 🎁', description: 'New to our wine section? Get flat 25% off on your first wine order above Rs.1000. Use code WINE25.', image: 'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=500&q=80', price: '25% OFF', discount: 'NEW USER', validity: 'For new customers only' },
+]
+
+export const wineWeeklyDeals = [
+  { id: 'wine-weekly-1', title: 'Premium Wine Pairing Box 🍽️', description: 'Get a curated box of 3 Sula wines (Red, White & Rosé) with a cheese & cracker pairing guide. Perfect gift!', image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=500&q=80', price: 'Rs.1,999', discount: '20% OFF', tag: 'WINE BOX' },
+]
+

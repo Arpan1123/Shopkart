@@ -3,20 +3,12 @@ import { Link } from 'react-router-dom'
 
 const slides = [
   {
-    image: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-    title: 'Premium Spirits & Fine Wines',
-    description: 'Discover our curated collection of world-class whiskeys, vodkas, rums, and wines. Delivered to your door. 🔞 21+ only.',
-    buttonText: 'Explore Spirits',
-    buttonLink: '/drinks',
-    buttonClass: 'btn',
-  },
-  {
     image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     title: 'Fresh Groceries, Delivered Fast',
     description: 'From farm-fresh fruits to premium meats — everything you need for daily life. Get 20% off your first order!',
     buttonText: 'Shop Groceries',
     buttonLink: '/fruits',
-    buttonClass: 'btn btn-secondary',
+    buttonClass: 'btn',
   },
   {
     image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
@@ -25,6 +17,14 @@ const slides = [
     buttonText: 'View Deals',
     buttonLink: '/offers',
     buttonClass: 'btn',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    title: 'Farm Fresh. Every Day. 🌿',
+    description: 'Hand-picked seasonal fruits, crisp vegetables, and organic produce. Delivered straight from the farm to your table.',
+    buttonText: 'Explore Produce',
+    buttonLink: '/fruits',
+    buttonClass: 'btn btn-secondary',
   },
 ]
 

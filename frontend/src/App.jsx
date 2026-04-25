@@ -7,6 +7,7 @@ import Offers from './pages/Offers'
 import CategoryPage from './pages/CategoryPage'
 import Search from './pages/Search'
 import Login from './pages/Login'
+import Wines from './pages/Wines'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="bakery" element={<CategoryPage category="bakery" />} />
         <Route path="drinks" element={<CategoryPage category="drinks" />} />
         <Route path="search" element={<Search />} />
+        <Route path="wines" element={<Wines />} />
       </Route>
     </Routes>
   )
