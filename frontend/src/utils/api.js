@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://marvelous-quietude-production-6b0e.up.railway.app'
+const API_URL = "https://marvelous-quietude-production-6b0e.up.railway.app/api"
 
 const getToken = () => localStorage.getItem('freshmartToken')
 
@@ -7,7 +7,7 @@ async function request(path, options = {}) {
   const headers = { 'Content-Type': 'application/json', ...options.headers }
   if (token) headers['Authorization'] = `Bearer ${token}`
 
-  const res = await fetch(`${BASE_URL}${path}`, { ...options, headers })
+  const res = await fetch(`${API_URL}${path}`, { ...options, headers })
   const data = await res.json()
 
   if (!res.ok) throw new Error(data.message || 'Something went wrong')
@@ -16,27 +16,27 @@ async function request(path, options = {}) {
 
 // ── Auth ──────────────────────────────────────────────────────────────────
 export const registerUser = (body) =>
-  request('/api/auth/register', { method: 'POST', body: JSON.stringify(body) })
+  request('/auth/register', { method: 'POST', body: JSON.stringify(body) })
 
 export const loginUser = (body) =>
-  request('/api/auth/login', { method: 'POST', body: JSON.stringify(body) })
+  request('/auth/login', { method: 'POST', body: JSON.stringify(body) })
 
-export const getMe = () => request('/api/auth/me')
+export const getMe = () => request('/auth/me')
 
 // ── Products ──────────────────────────────────────────────────────────────
 export const fetchProducts = (category) => {
   const query = category ? `?category=${category}` : ''
-  return request(`/api/products${query}`)
+  return request(`/products${query}`)
 }
 
 export const searchProducts = (q) =>
-  request(`/api/products/search?q=${encodeURIComponent(q)}`)
+  request(`/products/search?q=${encodeURIComponent(q)}`)
 
 // ── Orders ────────────────────────────────────────────────────────────────
 export const placeOrder = (body) =>
-  request('/api/orders', { method: 'POST', body: JSON.stringify(body) })
+  request('/orders', { method: 'POST', body: JSON.stringify(body) })
 
-export const getMyOrders = () => request('/api/orders')
+export const getMyOrders = () => request('/orders')
 
 // ── Offers ────────────────────────────────────────────────────────────────
-export const fetchOffers = () => request('/api/offers')
+export const fetchOffers = () => request('/offers')
