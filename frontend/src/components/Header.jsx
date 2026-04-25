@@ -43,6 +43,7 @@ export default function Header() {
               <Link to="/drinks">🔞 Premium Drinks</Link>
             </div>
           </div>
+          <NavLink to="/wines" className="drinks-link" style={{ fontSize: 14, fontWeight: 700 }}>🍷 Fine Wines</NavLink>
         </nav>
 
         <form className="glass-search" onSubmit={handleSearch}>
