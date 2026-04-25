@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { offers as staticOffers, weeklyDeals } from '../data/offers'
-import AgeGate from '../components/AgeGate'
 import { fetchOffers } from '../utils/api'
 
 export default function Offers() {
@@ -41,7 +40,7 @@ export default function Offers() {
   const filtered = filter === 'all' ? allOffers : allOffers.filter(o => o.category === filter)
 
   return (
-    <AgeGate>
+    <>
       <section className="offers-hero">
         <div className="container">
           <h1>Special Offers &amp; Deals</h1>
@@ -117,6 +116,6 @@ export default function Offers() {
           </div>
         </div>
       </section>
-    </AgeGate>
+    </>
   )
 }
